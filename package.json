@@ -1,5 +1,6 @@
 {
   "name": "buy-sell-cars",
+  "base": "https://github.com/RuslanSolskyi/BuySellCars-master",
   "version": "0.0.1",
   "description": "",
   "author": "tsimko",
