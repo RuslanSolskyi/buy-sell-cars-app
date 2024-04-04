@@ -4,10 +4,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as dotenv from 'dotenv';
 
 import { AppModule } from './app.module';
-import { admin } from './common/constants/admin.dto';
-import { brandsAndModels } from './common/constants/brands-and-models';
 import { SwaggerHelper } from './common/helper/swagger.helper';
 import { AppConfigService } from './config/app/configuration.service';
+import { createDefaultEntities } from './database/defaultEntities';
 import { AdminService } from './modules/admin/admin.service';
 import { ModelsService } from './modules/brand/models.service';
 
@@ -16,12 +15,15 @@ dotenv.config({ path: `environments/${environment}.env` });
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const adminService = app.get<AdminService>(AdminService);
+  const modelsService = app.get<ModelsService>(ModelsService);
   const appConfig: AppConfigService =
     app.get<AppConfigService>(AppConfigService);
 
+  // Глобальна обробка помилок валидації
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
+  // Налаштування Swagger
   const config = new DocumentBuilder()
     .setTitle('buySellCars')
     .setDescription('Platform for selling and buying cars 🏎')
@@ -32,24 +34,16 @@ async function bootstrap() {
   SwaggerHelper.setDefaultResponses(document);
   SwaggerModule.setup('api', app, document);
 
-  const adminService = app.get<AdminService>(AdminService);
-  try {
-    await adminService.createAdmin(admin);
-    new Logger().warn('ROOT ADMIN created.');
-  } catch (e) {
-    new Logger().warn('ROOT ADMIN created.');
-  }
-  const brandAndModelService = app.get<ModelsService>(ModelsService);
-  try {
-    await brandAndModelService.createBrandsAndModels(brandsAndModels);
-    new Logger().warn('Brand and model created.');
-  } catch (e) {
-    new Logger().warn('Brand and model created.');
-  }
+  // Створення дефолтних сутностей
+  await createDefaultEntities(adminService, modelsService);
+
+  // Глобальна обробка помилок валидації (знову)
   app.useGlobalPipes(new ValidationPipe());
 
+  // Прослуховування порту та запуск сервера
   await app.listen(appConfig.port, () => {
     Logger.log(`- the server started on port ${appConfig.port} ᕙ(^▿^-ᕙ)`);
   });
 }
+
 void bootstrap();

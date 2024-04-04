@@ -12,7 +12,9 @@ export class ModelsService {
     private readonly carModelRepository: CarModelRepository,
   ) {}
 
-  async createBrandsAndModels(brandsAndModels): Promise<void> {
+  async createBrandsAndModels(
+    brandsAndModels: { brandName: string; models: string[] }[],
+  ): Promise<void> {
     for (const brandAndModels of brandsAndModels) {
       const brand = new CarBrand();
       brand.name = brandAndModels.brandName;

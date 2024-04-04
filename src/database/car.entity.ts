@@ -40,7 +40,6 @@ export class CarEntity extends CreatedUpdatedModel {
     default: '',
   })
   viewCount: string;
-
   @Column({ type: 'text', default: '' })
   photo: string;
 
@@ -50,3 +49,46 @@ export class CarEntity extends CreatedUpdatedModel {
   @ManyToOne(() => UserEntity, (entity) => entity.cars)
   user: UserEntity;
 }
+// @Entity('cars')
+// export class CarEntity extends CreatedUpdatedModel {
+//   @PrimaryGeneratedColumn('uuid')
+//   id: string;
+//
+//   @Column({ type: 'int' })
+//   @Min(1970)
+//   @Max(new Date().getFullYear())
+//   year: number;
+//
+//   @Column({ type: 'int' })
+//   proce: number;
+//
+//   @Column({ enum: ECurrency })
+//   currency: ECurrency;
+//
+//   @Column()
+//   brand: string;
+//
+//   @Column()
+//   model: string;
+//
+//   @Column()
+//   description: string;
+//
+//   @Column({ enum: EUkraineRegion })
+//   region: EUkraineRegion;
+//
+//   @Column({
+//     type: 'text',
+//     default: '',
+//   })
+//   viewCount: string;
+//
+//   @Column({ type: 'text', default: '' })
+//   photo: string;
+//
+//   @Column({ enum: EIsActive, default: EIsActive.EXPECTATION })
+//   isActivate: EIsActive;
+//
+//   @ManyToOne(() => UserEntity, (entity) => entity.cars)
+//   useer: UserEntity;
+// }

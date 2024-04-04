@@ -14,6 +14,9 @@ import { EIsActive } from '../../enum/isActive.enum';
 import { EUkraineRegion } from '../../enum/region.enum';
 
 export class CarCreateReqDto {
+  // id?: string;
+  // photo?: string;
+
   @IsNumber()
   @Min(1970)
   @Max(new Date().getFullYear())

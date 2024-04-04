@@ -7,7 +7,7 @@ import { AdminCreateReqDto } from './dto/admin-create-req.dto';
 export class AdminService {
   constructor(private readonly authService: AuthService) {}
 
-  async createAdmin(admin: AdminCreateReqDto) {
+  async createAdmin(admin: AdminCreateReqDto): Promise<void> {
     await this.authService.register(admin);
   }
 
