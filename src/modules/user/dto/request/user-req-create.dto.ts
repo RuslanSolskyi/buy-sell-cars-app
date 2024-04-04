@@ -10,10 +10,11 @@ import {
 
 import { IsAllowedRole } from '../../../../common/decorators/role-validator.dto';
 import { ERole } from '../../../../common/enum/role.enum';
+import { trimAndLowerCase } from "../../../../common/helper/transformers.helpers";
 import { telegramRegex } from '../../../../common/regex/telegram.regex';
 
 export class UserCreateReqDto {
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(trimAndLowerCase)
   @MinLength(2)
   @MaxLength(20)
   @IsString()
@@ -27,13 +28,13 @@ export class UserCreateReqDto {
   })
   telegram: string;
 
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(trimAndLowerCase)
   @IsString()
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(trimAndLowerCase)
   @IsString()
   @IsAllowedRole({ message: 'Invalid role value' })
   role: ERole;

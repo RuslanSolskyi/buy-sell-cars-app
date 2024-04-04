@@ -8,6 +8,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
+import { trimAndLowerCase } from "../../../../common/helper/transformers.helpers";
 
 import { ECurrency } from '../../enum/currency.enum';
 import { EIsActive } from '../../enum/isActive.enum';
@@ -25,7 +26,7 @@ export class CarCreateReqDto {
   @IsNumber()
   price: number;
 
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(trimAndLowerCase)
   // @IsEnum(EBrand)
   brand: string;
 
@@ -33,7 +34,7 @@ export class CarCreateReqDto {
   @IsEnum(ECurrency)
   currency: ECurrency;
 
-  @Transform(({ value }) => value.trim().toLowerCase())
+  @Transform(trimAndLowerCase)
   @MinLength(2)
   @MaxLength(20)
   // @IsEnum(EModel)
